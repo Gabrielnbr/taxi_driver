@@ -6,7 +6,7 @@ import plotly_express as px
 
 from matplotlib import pyplot as plt
 
-
+from conexao_api import 
 
 def app():
     st.header("Oi Stramlit")
