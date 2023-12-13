@@ -5,7 +5,7 @@ from flask              import Flask, request ,Response
 import json
 from taxi.Taxi import Taxi 
 # load model
-model = pickle.load( open( 'model/predict_model.pkl', 'rb') )
+model = pickle.load( open( 'api/model/predict_model.pkl', 'rb') )
 
 # inicialize API
 app = Flask(__name__)
