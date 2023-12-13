@@ -4,9 +4,8 @@ import pandas as pd
 from flask              import Flask, request ,Response
 import json
 from taxi.Taxi import Taxi 
-
 # load model
-model = pickle.load( open( '../api/model/predict_model.pkl', 'rb') )
+model = pickle.load( open( 'api/model/predict_model.pkl', 'rb') )
 
 # inicialize API
 app = Flask(__name__)
@@ -14,6 +13,7 @@ app = Flask(__name__)
 @app.route('/taxi/predict', methods = ['POST'])
 def taxi_predict():
     test_json = request.get_json()
+    test_json = json.loads(test_json)
     
     if test_json:
         
@@ -21,8 +21,8 @@ def taxi_predict():
             test_raw = pd.DataFrame( test_json, index=[0])
         
         else: # Multiple Example
-            test_raw = pd.DataFrame( test_json, columns = test_json[0].keys())
-    
+            test_raw = pd.DataFrame( json.loads(test_json), columns = test_json[0].keys())
+        
         # Instanciar a taxi Class AQUI QUE A MAGIA ACONTECE
         pipeline = Taxi()
         
@@ -35,7 +35,6 @@ def taxi_predict():
         df4 = pipeline.selecao_atributos(df3)
         
         df_responde = pipeline.get_prediction(model, test_raw, df4)
-
         return df_responde
     
     else:
