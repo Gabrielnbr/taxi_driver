@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 from flask              import Flask, request ,Response
 import json
-from api.taxi.Taxi import Taxi 
+from taxi.Taxi import Taxi 
 
 # load model
 model = pickle.load( open( 'api\model\predict_model.pkl', 'rb') )
