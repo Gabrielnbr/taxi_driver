@@ -2,11 +2,11 @@ import os
 import pickle
 import pandas as pd
 from flask              import Flask, request ,Response
-#from api.
 import json
+from api.taxi.Taxi import Taxi 
 
 # load model
-model = pickle.load( open( 'feature/predict_model.pkl', 'rb') )
+model = pickle.load( open( 'api\model\predict_model.pkl', 'rb') )
 
 # inicialize API
 app = Flask(__name__)
@@ -25,7 +25,6 @@ def taxi_predict():
     
         # Instanciar a taxi Class AQUI QUE A MAGIA ACONTECE
         pipeline = Taxi()
-        
         
         df1 = pipeline.feature_engeneering(test_raw)
         
