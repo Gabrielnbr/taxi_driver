@@ -9,10 +9,10 @@ import inflection
 class Taxi (object):
     def __init__ (self):
         self.home_path = ''
-        self.st = pickle.load(open(self.home_path + '../feature/haversine_km_ss.pkl', 'rb'))
+        #self.st = pickle.load(open(self.home_path + '../feature/haversine_km_ss.pkl', 'rb'))
     
     # Padroniza as nomeclatura das colunas para snake_case
-    def snake_case_columns(df):
+    def snake_case_columns(self, df: pd.DataFrame) -> pd.DataFrame:
         df_copy = df.copy()
 
         # Transforma todas para Snakecase
@@ -28,23 +28,23 @@ class Taxi (object):
         return df_copy
     
     # Métrica de avaliação definida pelo negócio.
-    def haversine(lon1, lat1, lon2, lat2):
+    # def haversine(lon1, lat1, lon2, lat2):
     
-        # converter decimal para radiano
-        lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
-        # haversine formula 
-        dlon = lon2 - lon1 
-        dlat = lat2 - lat1 
-        a = (np.sin(dlat/2)**2) + np.cos(lat1) * np.cos(lat2) * (np.sin(dlon/2)**2)
-        r = 6371 # Raio da Terra em quilômetros. Use 3956 para milhas.
-        d = 2 * r * np.arcsin(np.sqrt(a))
-        return np.round(d,5)
+    #     # converter decimal para radiano
+    #     lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
+    #     # haversine formula 
+    #     dlon = lon2 - lon1 
+    #     dlat = lat2 - lat1 
+    #     a = (np.sin(dlat/2)**2) + np.cos(lat1) * np.cos(lat2) * (np.sin(dlon/2)**2)
+    #     r = 6371 # Raio da Terra em quilômetros. Use 3956 para milhas.
+    #     d = 2 * r * np.arcsin(np.sqrt(a))
+    #     return np.round(d,5)
     
     # Feature_engeneering
-    def feature_engeneering(df: pd.DataFrame) -> pd.DataFrame:
+    def feature_engeneering(self, df: pd.DataFrame) -> pd.DataFrame:
         # 2 snake_case ==========================================
-        df = snake_case_columns(df)
-
+        # df = Taxi.snake_case_columns(df)
+        
         # 3.1 valores_NAN ================================================
         df['origin_call'] = np.where(df['call_type'] == 'A', 1, 0)
         df['origin_stand'] = np.where(df['call_type'] == 'B', 1, 0)
@@ -89,13 +89,13 @@ class Taxi (object):
         df.drop(columns = ['timestamp','polyline', 'data_timestamp', 'lat_long_temp'], axis = 1, inplace=True)
 
         # 3.7 haversine ================================================
-        df['haversine_km'] = haversine(df["long_inicial"], df["lat_inicial"], df["long_final"], df["lat_final"])
-        df['haversine_mt'] = df['haversine_km']*1000
+        #df['haversine_km'] = haversine(df["long_inicial"], df["lat_inicial"], df["long_final"], df["lat_final"])
+        #df['haversine_mt'] = df['haversine_km']*1000
 
         return df
 
     # Filter Data
-    def filter_data(df: pd.DataFrame) -> pd.DataFrame:
+    def filter_data(self, df: pd.DataFrame) -> pd.DataFrame:
 
         # 5. Filtro do Dataset
         filtro_lat = ((df['lat_inicial'] >= 38.4) & (df['lat_inicial'] <= 42.2) &
@@ -111,13 +111,13 @@ class Taxi (object):
         return df_filter
 
     # Preparação dos dados
-    def preparacao_dados(df: pd.DataFrame) -> pd.DataFrame:
+    def preparacao_dados(self, df: pd.DataFrame) -> pd.DataFrame:
         # 6.1 Encoding =============================================
         df = pd.get_dummies(df, columns=['call_type'])
 
         # 6.2. Rescaling ===============================================
-        st = pickle.load(open('../src/features/haversine_km_ss.pkl', 'rb'))
-        df['haversine_km'] = st.fit_transform(df[['haversine_km']])
+        #st = pickle.load(open('../src/features/haversine_km_ss.pkl', 'rb'))
+        #df['haversine_km'] = st.fit_transform(df[['haversine_km']])
 
         df['delta_lat'] = np.log1p(df['delta_lat'].values)
         df['delta_long'] = np.log1p(df['delta_long'].values)
@@ -142,13 +142,17 @@ class Taxi (object):
         return df
     
     # Selação de Atributos
-    def selecao_atributos(df: pd.DataFrame) -> pd.DataFrame:
+    def selecao_atributos(self, df: pd.DataFrame) -> pd.DataFrame:
 
         # 7.0 Seleção dos atributos ==========================
-        cols_drop = ['year', 'month', 'day', 'semana_do_ano', 'weekday', 'ano_semana', 'haversine_mt', 'semana_do_ano', 'trip_id', 'taxi_id']
+        cols_drop =(['year', 'month', 'day', 'semana_do_ano', 'weekday', 'ano_semana', 
+                     #'haversine_mt', 
+                     'semana_do_ano', 'trip_id', 'taxi_id'])
         df = df.drop(cols_drop, axis=1)
         df = df.drop(['long_final', 'lat_final'], axis=1)
-        df = df[['delta_lat', 'lat_inicial', 'long_inicial', 'haversine_km', 'delta_long']]
+        df = (df[['delta_lat', 'lat_inicial', 'long_inicial',
+                  #'haversine_km',
+                  'delta_long']])
 
         return df
     

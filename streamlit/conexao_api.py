@@ -17,7 +17,7 @@ def load_dataset(ids: List[int], test: pd.DataFrame) -> str:
         # Converte o DataFrame resultante em formato JSON
         data = json.dumps(test.to_dict(orient='records'))
     else:
-        data = 'error'
+        data = 'error'  
 
     return data
 
@@ -35,4 +35,4 @@ def get_predictions(data: str) -> pd.DataFrame:
     
     except requests.exceptions.RequestException as e:
         st.write(f"Error occurred during prediction: {e}")
-        return pd.DataFrame(columns=['store', 'prediction'])
+        return pd.DataFrame()
