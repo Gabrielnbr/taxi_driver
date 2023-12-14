@@ -68,8 +68,8 @@ class Taxi (object):
 
         # 3.3 Lat Long ===============================================================
         df["lat_long_temp"] = np.where(df["polyline"] == '[]', 0, 
-                                            df["polyline"].str.replace(r"[[|[|]|]|]]", "").str.split(",")
-                                            )
+                                        df["polyline"].str.replace(r"[[|[|]|]|]]", "", regex=True).str.split(",")
+                                        )
 
         df["long_inicial"] = df["lat_long_temp"].apply(lambda x: float(x[0]) if x else 0)
         df["lat_inicial"] = df["lat_long_temp"].apply(lambda x: float(x[1]) if x else 0)
@@ -149,18 +149,29 @@ class Taxi (object):
                      #'haversine_mt', 
                      'semana_do_ano', 'trip_id', 'taxi_id'])
         df = df.drop(cols_drop, axis=1)
-        df = df.drop(['long_final', 'lat_final'], axis=1)
+        #df = df.drop(['long_final', 'lat_final'], axis=1)
         df = (df[['delta_lat', 'lat_inicial', 'long_inicial',
                   #'haversine_km',
-                  'delta_long']])
+                  'delta_long', 'long_final', 'lat_final']])
 
         return df
     
-    def get_prediction(self, model, original_data, test_data, processed_data):
+    def get_prediction(self, model, original_data, test_data):
         # prediction
+        
+        original_data['lat_final'] = test_data['lat_final']
+        original_data['long_final'] = test_data['long_final']
+        original_data['lat_inicial'] = test_data['lat_inicial']
+        original_data['long_inicial'] = test_data['long_inicial']
+        
+        test_data = test_data.drop(['long_final', 'lat_final'], axis=1)
         pred = model.predict(test_data)
         
         original_data['predicted_lat'] = pred.T[1]
         original_data['predicted_long'] = pred.T[0]
+        
+        cols_drop =(['CALL_TYPE', 'ORIGIN_CALL', 'ORIGIN_STAND', 'TIMESTAMP', 'DAY_TYPE', 'MISSING_DATA','POLYLINE'])
+        
+        original_data = original_data.drop(cols_drop, axis=1)
         
         return original_data.to_json( orient = 'records', date_format = 'iso' )
