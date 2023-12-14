@@ -22,8 +22,8 @@ def load_dataset(ids: List[int], test: pd.DataFrame) -> str:
     return data
 
 def get_predictions(data: str) -> pd.DataFrame:
-    url = 'http://localhost:5000/taxi/predict'
-    #url = 'https://taxi-4ui9.onrender.com/taxi/predict'
+    #url = 'http://localhost:5000/taxi/predict'
+    url = 'https://taxi-4ui9.onrender.com/taxi/predict'
     
     headers = {'Content-type': 'application/json'}
     try:

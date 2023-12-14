@@ -156,7 +156,7 @@ class Taxi (object):
 
         return df
     
-    def get_prediction(self, model, original_data, test_data):
+    def get_prediction(self, model, original_data, test_data, processed_data):
         # prediction
         pred = model.predict(test_data)
         
