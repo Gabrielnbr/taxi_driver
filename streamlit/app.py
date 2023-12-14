@@ -1,16 +1,11 @@
-import numpy as np
 import pandas as pd
-import seaborn as sns
 import streamlit as st
-import plotly_express as px
 
 from streamlit_folium import folium_static
 from folium.plugins   import MarkerCluster
 
 import json
 import folium
-
-from matplotlib import pyplot as plt
 
 from conexao_api import load_dataset, get_predictions, haversine
 
