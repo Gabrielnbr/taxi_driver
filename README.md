@@ -1,4 +1,4 @@
-# Taxi Drive: Previsão de ponto final do Taxi
+# Taxi Drive: Projeto de Previsão de mobilidade urbana
 # 0.0 Orientações
 Este projeto é um case técnico solicitado por um empresa como parte do processo seletivo dela. Tive exatamente 1 semana para desenvolver todo o projeto. Os avaliadores esperavam que eu entregasse o projeto até a análise do modelo de Machine Learning e suas métricas, mas fui além. Coloquei em produção para que eles pudessem testar uma versão simples do projeto.
 
@@ -10,11 +10,11 @@ Este é um projeto com dados extraídos e trabalhados do [Kaggle: Rossmann Store
 
 O Projeto em Produção está na propria nuvem do [Streamlit](https://taxi-driver.streamlit.app/). A API que realiza as predições foi disponibilizada no Render por meio da url https://taxi-4ui9.onrender.com
 
-Caso queira entender mais minha experiência com o projeto, eu disponibilizei um [Artigo no Medium]().
+Caso queira entender mais minha experiência com o projeto, eu disponibilizei um [Artigo no Medium](https://medium.com/@gabrielnobregalvao/taxi-drive-projeto-de-previs%C3%A3o-de-mobilidade-urbana-d921f895f9af).
 # 1.0 Problema de Negócio
 Devido aos grandes avanços na área da locomoção, os sistemas de táxi estão precisando se modernizar e também modernizar suas estruturas. Para isso fomos contratados para resolver o problema na capacidade de prever o destino final de um táxi enquanto está em serviço, visando a melhor alocação de novos serviços ao mesmo táxi assim que ficar vago.
 
-Para tal problema precisamos contrui uma estrutura preditiva que seja capaz de prever o destino final das corridas com base na sua trajetória inicial. 
+Para tal problema precisamos contrui uma estrutura preditiva que seja capaz de prever o destino final das corridas com base na sua trajetória inicial.
 
 Para melhorar a eficiência dos sistemas electrónicos de despacho de táxis é importante ser capaz de prever o destino final de um táxi enquanto este está em serviço.
 
