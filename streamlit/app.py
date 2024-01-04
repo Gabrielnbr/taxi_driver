@@ -9,6 +9,36 @@ import folium
 
 from conexao_api import load_dataset, get_predictions, haversine
 
+def pg_inicial():
+    st.title('Seja bem vindo ao projeto Taxi Drive de Previsão de mobilidade urbana')
+    
+    orientacao = '''    <p>Caso queira acessar mais informações específicas do projeto, segue os links a baixo:</p>
+                    <p><i class="fa-brands fa-linkedin"></i><a href="https://www.linkedin.com/in/gabriel-nobre-galvao/"> Linkedin: Aprendizado do projeto Taxi Drive de mobilidade urbana</a></p>
+                    <p><i class="fa-brands fa-medium"></i><a href="https://medium.com/@gabrielnobregalvao/taxi-drive-projeto-de-previs%C3%A3o-de-mobilidade-urbana-d921f895f9af"> Medium: Taxi Drive: Projeto de Previsão de mobilidade urbana</a></p>
+                    <p><i class="fa-brands fa-github"></i><a href="https://github.com/Gabrielnbr/taxi_driver"> Git Hub: Taxi Drive</a></p>
+                    '''
+    
+    st.write(orientacao, unsafe_allow_html = True)
+    
+    st.subheader("Contato Profissional")
+    
+    contato = '''
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">                                                                                                    
+    
+    <ul class="actions">
+        <table>
+            <tr>
+                <th><i class="fa-solid fa-folder-tree"></i><a href="https://bit.ly/portfolio-gabriel-nobre"> Portfólio de Projetos</a></th>
+                <th><i class="fa-brands fa-linkedin"></i><a href="https://www.linkedin.com/in/gabriel-nobre-galvao/"> Linkedin</a></th>
+                <th><i class="fa-brands fa-medium"></i><a href="https://medium.com/@gabrielnobregalvao"> Medium</a></th>
+                <th><i class="fa-brands fa-github"></i><a href="https://github.com/Gabrielnbr"> Git Hub</a></th>
+                <th><i class="fa-solid fa-envelope"></i><a href="mailto:gabrielnobregalvao@gmail.com"> E-mail</a></th>
+            </tr>
+        </table>
+    </ul>
+    '''
+    st.write(contato, unsafe_allow_html=True) 
+
 def app(test):
     
     filter = st.multiselect("Selecione o Taxi", test['TAXI_ID'].sort_values().unique(),[20000108])
@@ -105,47 +135,10 @@ if __name__ == "__main__":
     
     test = pd.read_csv("streamlit/data/test.csv")
     
-    app_st , pg_test_st = st.tabs(["Negócio", "Teste"])
+    info , predicao = st.tabs(["Informações", "Predição"])
     
-    with app_st:
+    with info:
+        pg_inicial()
+    
+    with predicao:
         app(test=test)
-    
-    #with pg_test_st:
-    #    pagina_test(test=test)
-    
-    
-
-
-
-
-def pagina_test(test):
-    
-    index = [0,318,319]
-    
-    st.header("TEST_RAW")
-    st.dataframe(test)
-    
-    st.header("TEST_FILTER_INDEX")
-    test_2 = test[test.index.isin(index)]
-    st.dataframe(test_2)
-    
-    st.header("LOAD_DATA_SET_JSON")
-    df_test = load_dataset(index,test)
-    st.write(df_test)
-    
-    # ÁREA DE TESTE, NÃO ENVIAR PARA GET_PERDICTION ===================================
-    #st.header("LOAD_DATA_SET_QUANDO_A_API_RECEBER")
-    #test_json = json.loads(df_test)
-    #st.write(test_json)
-    #st.dataframe(pd.DataFrame(test_json, columns = test_json[0].keys()))
-    # ÁREA DE TESTE, NÃO ENVIAR PARA GET_PERDICTION ===================================
-    
-    if st.button('Predict'):
-        st.header("GET_PREDICTION")
-        df = get_predictions(df_test)
-        st.dataframe(df)
-        
-        df['distancia_real_predita'] = haversine(df["long_final"],df["lat_final"],df['predicted_long'],df['predicted_lat'])*1000
-        
-        map = mapa(df)
-        folium_static(map)
