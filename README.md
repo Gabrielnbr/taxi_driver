@@ -67,16 +67,17 @@ A equipe da empresa de táxi receberá para testes um site com as seguintes estr
 ## 3.3 Ferramentas Utilizadas
 Para criar a solução, foram utilizadas as seguintes ferramentas:
 
-Python 3.10.4
-Git e GitHub
-Jupyter Notebook no VSCode
-Técnicas de manipulação de dados.
-Técnicas de redução de dimensionalidade e seleção de atributos.
-Algoritmos de Machine Learning da biblioteca scikit-learn
-Serviço de Hospedagem em Nuvem do Render. (Back-End)
-Serviço Streamlit Cloud para aplicação web. (Front-End)
-Metodologias Ágeis: Scrum e Kambam
-Software de Gestão: Notion
+1. Python 3.10.4
+2. Git e GitHub
+3. Jupyter Notebook no VSCode
+4. Técnicas de manipulação de dados.
+5. Técnicas de redução de dimensionalidade e seleção de atributos.
+6. Algoritmos de Machine Learning da biblioteca scikit-learn
+7. Serviço de Hospedagem em Nuvem do Render. (Back-End)
+8. Serviço Streamlit Cloud para aplicação web. (Front-End)
+9. Metodologias Ágeis: Scrum e Kambam
+10. Software de Gestão: Notion
+
 # 4.0 Análise dos Dados
 Após a limpeza e o tratamento inicial dos dados. Foi realizado uma análise estatística da qual houve o desenvolvimento de novas features e levantamento de hipóteses de negócio.
 ## 4.1 Insights de Negócio
